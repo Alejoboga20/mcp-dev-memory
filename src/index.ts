@@ -1,10 +1,8 @@
+import { createDatabaseConnection, getDatabasePath } from "./core/db";
 
-const command = process.argv[2];
+const db = createDatabaseConnection();
+const result = db.prepare("SELECT datetime('now') as now").get();
 
-if (command === "server") {
-  console.log("Starting MCP server...");
-  // await startMcpServer();
-} else {
-  console.log("Starting CLI...");
-  // await startCli();
-}
+console.log("SQLite connected");
+console.log("DB path:", getDatabasePath());
+console.log(result);
