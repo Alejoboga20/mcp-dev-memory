@@ -5,6 +5,9 @@
     "moduleResolution": "NodeNext",
     "strict": true,
     "types": ["node"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "rootDir": "src",
     "outDir": "dist"
   },

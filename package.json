@@ -2,10 +2,10 @@
   "name": "mcp-dev-memory",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "dev:server": "tsx watch src/index.ts server",
+    "dev": "tsx watch src/main.ts",
+    "dev:server": "tsx watch src/main.ts server",
     "type:checker": "pnpm exec tsc --noEmit"
   },
   "keywords": [],
