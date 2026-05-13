@@ -1,4 +1,5 @@
-import { CreateNoteUseCase } from "./application/notes/create-note.use-case";
+import { NotesService } from "./application/notes/notes.service";
+import { CreateNoteUseCase } from "./application/notes/use-cases/create-note.use-case";
 import {
   createSqliteConnection,
   getDatabasePath,
@@ -7,24 +8,14 @@ import { SqliteNotesRepository } from "./infrastructure/notes/sqlite-notes.repos
 
 async function main() {
   const db = createSqliteConnection();
+
   const notesRepository = new SqliteNotesRepository(db);
   const createNotesUseCase = new CreateNoteUseCase(notesRepository);
+  const notesService = new NotesService(createNotesUseCase);
 
-  const note = await createNotesUseCase.execute({
-    project: "node-api",
-    type: "endpoint",
-    name: "GET /users/:id",
-    content: "Returns UserDto with id, email, status and createdAt.",
-    tags: ["users", "endpoint", "migration"],
-    metadata: {
-      targetProject: "python-api",
-      relatedEntity: "GET /users/{user_id}",
-    },
-  });
-
+  console.log(`Notes Service: ${notesService}`);
+  console.log(`Notes Repository: ${notesRepository}`);
   console.log("DB path:", getDatabasePath());
-  console.log("Created note:");
-  console.log(note);
 }
 
 main().catch((error) => {
