@@ -15,3 +15,5 @@ export type CreateNoteInput = {
   tags?: string[];
   metadata?: Record<string, unknown>;
 };
+
+export type FindNotesInput = Partial<CreateNoteInput>;
