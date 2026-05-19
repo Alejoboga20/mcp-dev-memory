@@ -1,5 +1,6 @@
 import { NotesService } from "./application/notes/notes.service";
 import { CreateNoteUseCase } from "./application/notes/use-cases/create-note.use-case";
+import { DeprecateNoteUseCase } from "./application/notes/use-cases/deprecate-note.use-case";
 import { FindNotesUseCase } from "./application/notes/use-cases/find-notes.use-case";
 import {
   createSqliteConnection,
@@ -14,8 +15,13 @@ async function main() {
 
   const createNotesUseCase = new CreateNoteUseCase(notesRepository);
   const findNotesUseCase = new FindNotesUseCase(notesRepository);
+  const deprecatedNoteUseCase = new DeprecateNoteUseCase(notesRepository);
 
-  const notesService = new NotesService(createNotesUseCase, findNotesUseCase);
+  const notesService = new NotesService(
+    createNotesUseCase,
+    findNotesUseCase,
+    deprecatedNoteUseCase,
+  );
 
   console.log(`Notes Service: ${JSON.stringify(notesService, null, 2)}`);
   console.log(`Notes Repository: ${JSON.stringify(notesRepository, null, 2)}`);

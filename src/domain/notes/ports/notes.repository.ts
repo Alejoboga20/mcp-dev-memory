@@ -5,6 +5,7 @@ import type {
 } from "@/domain/notes/types/notes.types";
 
 export interface NotesRepository {
-  create(input: CreateNoteInput): Promise<Note>;
-  find(input?: FindNotesInput): Promise<Note[]>;
+  create(createNoteInput: CreateNoteInput): Promise<Note>;
+  find(findNotesInput: FindNotesInput): Promise<Note[]>;
+  deprecateNote(noteId: number): Promise<void>;
 }

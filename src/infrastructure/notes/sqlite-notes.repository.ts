@@ -24,7 +24,7 @@ type SqliteQueryParam = string | number | bigint | Buffer | null;
 export class SqliteNotesRepository implements NotesRepository {
   constructor(private readonly db: Database.Database) {}
 
-  async create(input: CreateNoteInput): Promise<Note> {
+  async create(createNoteInput: CreateNoteInput): Promise<Note> {
     const now = new Date().toISOString();
 
     const result = this.db
@@ -45,13 +45,13 @@ export class SqliteNotesRepository implements NotesRepository {
       `,
       )
       .run(
-        input.project,
-        this.toSqliteBoolean(input.isActive),
-        input.type,
-        input.name,
-        input.content,
-        JSON.stringify(input.tags ?? []),
-        JSON.stringify(input.metadata ?? {}),
+        createNoteInput.project,
+        this.toSqliteBoolean(createNoteInput.isActive),
+        createNoteInput.type,
+        createNoteInput.name,
+        createNoteInput.content,
+        JSON.stringify(createNoteInput.tags ?? []),
+        JSON.stringify(createNoteInput.metadata ?? {}),
         now,
         now,
       );
@@ -67,8 +67,8 @@ export class SqliteNotesRepository implements NotesRepository {
     return this.mapRowToNote(row);
   }
 
-  async find(input: FindNotesInput = {}): Promise<Note[]> {
-    const { whereClause, params } = this.buildFindQuery(input);
+  async find(findNotesInput: FindNotesInput = {}): Promise<Note[]> {
+    const { whereClause, params } = this.buildFindQuery(findNotesInput);
 
     const rows = this.db
       .prepare(
@@ -84,12 +84,35 @@ export class SqliteNotesRepository implements NotesRepository {
     return rows.map((row) => this.mapRowToNote(row));
   }
 
+  async deprecateNote(noteId: number): Promise<void> {
+    const result = this.db
+      .prepare(
+        `
+        UPDATE notes
+        SET
+          is_active = ?,
+          updated_at = ?
+        WHERE id = ?
+      `,
+      )
+      .run(this.toSqliteBoolean(false), new Date().toISOString(), noteId);
+
+    if (result.changes === 0) {
+      throw new Error(`Note not found: ${noteId}`);
+    }
+  }
+
   private buildFindQuery(input: FindNotesInput): {
     whereClause: string;
     params: SqliteQueryParam[];
   } {
     const conditions: string[] = [];
     const params: SqliteQueryParam[] = [];
+
+    if (input.id) {
+      conditions.push("id = ?");
+      params.push(input.id);
+    }
 
     if (input.project) {
       conditions.push("project = ?");

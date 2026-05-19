@@ -17,4 +17,6 @@ export type CreateNoteInput = {
   metadata?: Record<string, unknown>;
 };
 
-export type FindNotesInput = Partial<CreateNoteInput>;
+export type FindNotesInput = Partial<CreateNoteInput> & {
+  id?: number;
+};
