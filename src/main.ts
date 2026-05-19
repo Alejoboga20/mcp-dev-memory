@@ -20,8 +20,6 @@ async function main() {
   console.log(`Notes Service: ${JSON.stringify(notesService, null, 2)}`);
   console.log(`Notes Repository: ${JSON.stringify(notesRepository, null, 2)}`);
   console.log("DB path:", getDatabasePath());
-
-  console.log(await notesService.findNotes());
 }
 
 main().catch((error) => {

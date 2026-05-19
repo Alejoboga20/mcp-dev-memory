@@ -3,6 +3,7 @@ import type { NoteType } from "@/domain/notes/types/notes.types";
 export type Note = {
   id: number;
   project: string;
+  isActive: boolean;
   type: NoteType;
   name: string;
   content: string;

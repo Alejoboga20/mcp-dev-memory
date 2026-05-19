@@ -4,6 +4,7 @@ import { noteTypeSchema } from "./create-note.dto";
 
 export const findNotesInputSchema = z.object({
   project: z.string().trim().min(1).optional(),
+  isActive: z.boolean().optional(),
   type: noteTypeSchema.optional(),
   name: z.string().trim().min(1).optional(),
   content: z.string().trim().min(1).optional(),

@@ -9,6 +9,7 @@ export type NoteType =
 
 export type CreateNoteInput = {
   project: string;
+  isActive: boolean;
   type: NoteType;
   name: string;
   content: string;

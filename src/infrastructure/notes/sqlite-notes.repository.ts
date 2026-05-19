@@ -9,6 +9,7 @@ import type Database from "better-sqlite3";
 type NoteRow = {
   id: number;
   project: string;
+  is_active: 0 | 1;
   type: Note["type"];
   name: string;
   content: string;
@@ -31,6 +32,7 @@ export class SqliteNotesRepository implements NotesRepository {
         `
         INSERT INTO notes (
           project,
+          is_active,
           type,
           name,
           content,
@@ -39,11 +41,12 @@ export class SqliteNotesRepository implements NotesRepository {
           created_at,
           updated_at
         )
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
       `,
       )
       .run(
         input.project,
+        this.toSqliteBoolean(input.isActive),
         input.type,
         input.name,
         input.content,
@@ -93,6 +96,11 @@ export class SqliteNotesRepository implements NotesRepository {
       params.push(input.project);
     }
 
+    if (input.isActive !== undefined) {
+      conditions.push("is_active = ?");
+      params.push(this.toSqliteBoolean(input.isActive));
+    }
+
     if (input.type) {
       conditions.push("type = ?");
       params.push(input.type);
@@ -133,7 +141,8 @@ export class SqliteNotesRepository implements NotesRepository {
     }
 
     return {
-      whereClause: conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "",
+      whereClause:
+        conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "",
       params,
     };
   }
@@ -142,10 +151,15 @@ export class SqliteNotesRepository implements NotesRepository {
     return `$.${JSON.stringify(key)}`;
   }
 
+  private toSqliteBoolean(value: boolean): 0 | 1 {
+    return value ? 1 : 0;
+  }
+
   private mapRowToNote(row: NoteRow): Note {
     return {
       id: row.id,
       project: row.project,
+      isActive: row.is_active === 1,
       type: row.type,
       name: row.name,
       content: row.content,
