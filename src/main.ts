@@ -1,31 +1,18 @@
-import { NotesService } from "./application/notes/notes.service";
-import { CreateNoteUseCase } from "./application/notes/use-cases/create-note.use-case";
-import { DeprecateNoteUseCase } from "./application/notes/use-cases/deprecate-note.use-case";
-import { FindNotesUseCase } from "./application/notes/use-cases/find-notes.use-case";
-import {
-  createSqliteConnection,
-  getDatabasePath,
-} from "./infrastructure/database/sqlite.connection";
-import { SqliteNotesRepository } from "./infrastructure/notes/sqlite-notes.repository";
+import { createApp } from "./composition";
+import { startMcpServer } from "./interfaces/mcp/mcp-server";
 
 async function main() {
-  const db = createSqliteConnection();
+  const command = process.argv[2];
 
-  const notesRepository = new SqliteNotesRepository(db);
+  if (command === "server") {
+    const app = createApp();
+    await startMcpServer(app);
+    return;
+  }
 
-  const createNotesUseCase = new CreateNoteUseCase(notesRepository);
-  const findNotesUseCase = new FindNotesUseCase(notesRepository);
-  const deprecatedNoteUseCase = new DeprecateNoteUseCase(notesRepository);
-
-  const notesService = new NotesService(
-    createNotesUseCase,
-    findNotesUseCase,
-    deprecatedNoteUseCase,
-  );
-
-  console.log(`Notes Service: ${JSON.stringify(notesService, null, 2)}`);
-  console.log(`Notes Repository: ${JSON.stringify(notesRepository, null, 2)}`);
-  console.log("DB path:", getDatabasePath());
+  console.error("Unknown command");
+  console.error("Usage: mcp-dev-memory server");
+  process.exit(1);
 }
 
 main().catch((error) => {

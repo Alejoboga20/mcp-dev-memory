@@ -4,6 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "build": "tsup src/main.ts --format esm",
+    "start": "node dist/main.mjs server",
     "dev": "tsx watch src/main.ts",
     "dev:server": "tsx watch src/main.ts server",
     "type:checker": "pnpm exec tsc --noEmit"
