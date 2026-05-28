@@ -12,6 +12,7 @@ export const noteTypeSchema = z.enum([
 
 export const createNoteInputSchema = z.object({
   project: z.string().trim().min(1, "Project is required"),
+  isActive: z.boolean().default(true),
   type: noteTypeSchema,
   name: z.string().trim().min(1, "Name is required"),
   content: z.string().trim().min(1, "Content is required"),
