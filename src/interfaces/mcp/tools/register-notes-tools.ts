@@ -1,6 +1,7 @@
 import { NotesService } from "@/application/notes/notes.service";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { registerSaveNoteTool } from "./save-note.tool";
+import { registerFindNotesTool } from "./find-notes.tool";
 
 type RegisterNotesToolsDeps = {
   notesService: NotesService;
@@ -11,4 +12,5 @@ export const registerNotesTools = (
   deps: RegisterNotesToolsDeps,
 ) => {
   registerSaveNoteTool(server, deps);
+  registerFindNotesTool(server, deps);
 };

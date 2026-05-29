@@ -140,3 +140,35 @@ command
 bugfix
 other
 ```
+
+## Local Testing
+
+### Codex
+
+In order to use the tool with Codex we need to add it as a MCP Server using the following commands
+
+1. Build the project
+
+```
+pnpm run build
+```
+
+2. Start the server
+
+```
+pnpm start
+```
+
+3. Add the MCP Server
+
+```
+codex mcp add mcp-dev-memory \
+  --env MCP_DEV_MEMORY_DB=$HOME/.mcp-dev-memory/memory.sqlite \
+  -- node /Users/alejoboga/Desktop/dev/mcp-dev-memory/dist/main.mjs server
+```
+
+4. To check MCP was successfully added run the following command
+
+```
+codex mcp list
+```
