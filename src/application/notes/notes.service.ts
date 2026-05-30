@@ -4,6 +4,7 @@ import type { CreateNoteDto } from "./dtos/create-note.dto";
 import { FindNotesUseCase } from "./use-cases/find-notes.use-case";
 import type { FindNotesDto } from "./dtos/find-notes.dto";
 import { DeprecateNoteUseCase } from "./use-cases/deprecate-note.use-case";
+import { DeprecateNoteDto } from "./dtos/deprecate-note.dto";
 
 export class NotesService {
   constructor(
@@ -24,7 +25,11 @@ export class NotesService {
     return notes;
   }
 
-  async deprecateNote(input: number): Promise<void> {
-    await this.deprecatedNoteUseCase.execute(input);
+  async deprecateNote(input: DeprecateNoteDto): Promise<Note> {
+    const deprecatedNote = await this.deprecatedNoteUseCase.execute(
+      input.noteId,
+    );
+
+    return deprecatedNote;
   }
 }

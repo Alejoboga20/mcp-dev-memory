@@ -84,7 +84,7 @@ export class SqliteNotesRepository implements NotesRepository {
     return rows.map((row) => this.mapRowToNote(row));
   }
 
-  async deprecateNote(noteId: number): Promise<void> {
+  async deprecateNote(noteId: number): Promise<Note> {
     const result = this.db
       .prepare(
         `
@@ -97,9 +97,14 @@ export class SqliteNotesRepository implements NotesRepository {
       )
       .run(this.toSqliteBoolean(false), new Date().toISOString(), noteId);
 
-    if (result.changes === 0) {
-      throw new Error(`Note not found: ${noteId}`);
-    }
+    if (result.changes === 0) throw new Error(`Note not found: ${noteId}`);
+
+    const updatedNote = await this.find({ id: noteId });
+
+    if (!updatedNote || updatedNote.length === 0)
+      throw new Error(`Note with id ${noteId} not found after update`);
+
+    return updatedNote[0];
   }
 
   private buildFindQuery(input: FindNotesInput): {
