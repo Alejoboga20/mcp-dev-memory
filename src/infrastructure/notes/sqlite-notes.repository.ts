@@ -114,6 +114,10 @@ export class SqliteNotesRepository implements NotesRepository {
     const conditions: string[] = [];
     const params: SqliteQueryParam[] = [];
 
+    // by default use only active notes
+    conditions.push("is_active = ?");
+    params.push(this.toSqliteBoolean(true));
+
     if (input.id) {
       conditions.push("id = ?");
       params.push(input.id);

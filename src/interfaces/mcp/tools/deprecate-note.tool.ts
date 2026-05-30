@@ -16,7 +16,8 @@ export const registerDeprecateNoteTool = (
     NoteTools.DEPRECATE_NOTE,
     {
       title: "Deprecate Note",
-      description: "Set Note as deprecated",
+      description:
+        "Mark a stored technical note as deprecated when it is outdated, incorrect, replaced by a newer decision, or no longer valid for current development.",
       inputSchema: deprecateNoteInputSchema,
     },
     async (deprecateNoteDto) => {

@@ -16,7 +16,8 @@ export const registerFindNotesTool = (
     NoteTools.FIND_NOTES,
     {
       title: "Find Notes",
-      description: "Find Tecnical Notes",
+      description:
+        "Search local developer memory for technical notes across projects. Use this before implementing or modifying database models, endpoints, schemas, DTOs, contracts, migrations, or architecture-sensitive code.",
       inputSchema: findNotesInputSchema,
     },
     async (findNotesDto) => {

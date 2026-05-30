@@ -17,7 +17,7 @@ export const registerSaveNoteTool = (
     {
       title: "Save Note",
       description:
-        "Save a technical memory note about models, endpoints, contracts, decisions, commands, or bugfixes.",
+        "Save a technical note into local developer memory. Use this when discovering database models, API endpoints, contracts, migration mappings, implementation decisions, useful commands, bugs, fixes, or project-specific knowledge that should be reused later.",
       inputSchema: createNoteInputSchema,
     },
     async (createNoteDto) => {

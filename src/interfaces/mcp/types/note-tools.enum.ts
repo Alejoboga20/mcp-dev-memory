@@ -1,5 +1,5 @@
 export enum NoteTools {
-  SAVE_NOTE = "SAVE_NOTE",
-  FIND_NOTES = "FIND_NOTES",
-  DEPRECATE_NOTE = "DEPRECATE_NOTE",
+  SAVE_NOTE = "save_note",
+  FIND_NOTES = "find_notes",
+  DEPRECATE_NOTE = "deprecate_note",
 }
