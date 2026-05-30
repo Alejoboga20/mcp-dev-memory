@@ -7,5 +7,5 @@ import type {
 export interface NotesRepository {
   create(createNoteInput: CreateNoteInput): Promise<Note>;
   find(findNotesInput: FindNotesInput): Promise<Note[]>;
-  deprecateNote(noteId: number): Promise<void>;
+  deprecateNote(noteId: number): Promise<Note>;
 }
