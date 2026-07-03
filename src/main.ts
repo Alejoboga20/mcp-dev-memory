@@ -1,18 +1,17 @@
 import { createApp } from "./composition";
+import { startCli } from "./interfaces/cli/cli";
 import { startMcpServer } from "./interfaces/mcp/mcp-server";
 
 async function main() {
   const command = process.argv[2];
+  const app = createApp();
 
   if (command === "server") {
-    const app = createApp();
     await startMcpServer(app);
     return;
   }
 
-  console.error("Unknown command");
-  console.error("Usage: mcp-dev-memory server");
-  process.exit(1);
+  await startCli(app);
 }
 
 main().catch((error) => {
