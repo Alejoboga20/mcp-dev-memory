@@ -100,6 +100,7 @@ export class SqliteNotesRepository implements NotesRepository {
     if (result.changes === 0) throw new Error(`Note not found: ${noteId}`);
 
     const updatedNote = await this.find({ id: noteId });
+    console.log({ updatedNote });
 
     if (!updatedNote || updatedNote.length === 0)
       throw new Error(`Note with id ${noteId} not found after update`);
@@ -113,10 +114,6 @@ export class SqliteNotesRepository implements NotesRepository {
   } {
     const conditions: string[] = [];
     const params: SqliteQueryParam[] = [];
-
-    // by default use only active notes
-    conditions.push("is_active = ?");
-    params.push(this.toSqliteBoolean(true));
 
     if (input.id) {
       conditions.push("id = ?");
